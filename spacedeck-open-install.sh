@@ -48,7 +48,7 @@ chown -R root:root /opt/spacedeck/server-files
 chmod 755 /opt/spacedeck/server-files
 cat <<EOF > /opt/spacedeck/.env
 ACTUAL_UPLOAD_DIR=/opt/spacedeck/server-files
-PORT=54321
+PORT=50421
 EOF
 cd /opt/spacedeck
 $STD yarn install
