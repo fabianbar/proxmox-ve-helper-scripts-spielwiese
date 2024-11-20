@@ -8,13 +8,13 @@ source <(curl -s https://raw.githubusercontent.com/fabianbar/proxmox-ve-helper-s
 function header_info {
 clear
 cat <<"EOF"
-Spacedeck-open
+Spacedeck
 EOF
 }
 header_info
 echo -e "Loading..."
-APP="Spacedeck-open"
-var_disk="4"
+APP="Spacedeck"
+var_disk="10"
 var_cpu="2"
 var_ram="2048"
 var_os="debian"
@@ -51,13 +51,13 @@ function update_script() {
 header_info
 check_container_storage
 check_container_resources
-if [[ ! -d /opt/spacedeck-open ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
+if [[ ! -d /opt/spacedeck ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
 msg_info "Updating ${APP}"
-systemctl stop spacedeck-open.service
-cd /opt/spacedeck-open
+systemctl stop spacedeck.service
+cd /opt/spacedeck
 git pull &>/dev/null
 yarn install &>/dev/null
-systemctl start spacedeck-open.service
+systemctl start spacedeck.service
 msg_ok "Successfully Updated ${APP}"
 exit
 }
@@ -68,4 +68,4 @@ description
 
 msg_ok "Completed Successfully!\n"
 echo -e "${APP} should be reachable by going to the following URL.
-         ${BL}http://${IP}:54321${CL} \n"
+         ${BL}http://${IP}:50421${CL} \n"
