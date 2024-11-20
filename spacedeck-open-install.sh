@@ -41,31 +41,31 @@ $STD apt-get install -y ffmpeg
 $STD apt-get install -y ghostscript
 msg_ok "Installed Node.js"
 
-msg_info "Installing Spacedeck-open"
-$STD git clone https://github.com/spacedeck/spacedeck-open.git /opt/spacedeck-open
-mkdir -p /opt/spacedeck-open/server-files
-chown -R root:root /opt/spacedeck-open/server-files
-chmod 755 /opt/spacedeck-open/server-files
-cat <<EOF > /opt/spacedeck-open/.env
-ACTUAL_UPLOAD_DIR=/opt/spacedeck-open/server-files
+msg_info "Installing Spacedeck"
+$STD git clone https://github.com/spacedeck/spacedeck-open.git /opt/spacedeck
+mkdir -p /opt/spacedeck/server-files
+chown -R root:root /opt/spacedeck/server-files
+chmod 755 /opt/spacedeck/server-files
+cat <<EOF > /opt/spacedeck/.env
+ACTUAL_UPLOAD_DIR=/opt/spacedeck/server-files
 PORT=54321
 EOF
-cd /opt/spacedeck-open
+cd /opt/spacedeck
 $STD yarn install
-msg_ok "Installed Spacedeck-open"
+msg_ok "Installed Spacedeck"
 
 msg_info "Creating Service"
-cat <<EOF >/etc/systemd/system/spacedeck-open.service
+cat <<EOF >/etc/systemd/system/spacedeck.service
 [Unit]
-Description=Spacedeck-open Service
+Description=Spacedeck Service
 After=network.target
 
 [Service]
 Type=simple
 User=root
 Group=root
-WorkingDirectory=/opt/spacedeck-open
-EnvironmentFile=/opt/spacedeck-open/.env
+WorkingDirectory=/opt/spacedeck
+EnvironmentFile=/opt/spacedeck/.env
 ExecStart=/usr/bin/yarn start
 Restart=always
 RestartSec=10
@@ -73,7 +73,7 @@ RestartSec=10
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl enable -q --now spacedeck-open.service
+systemctl enable -q --now spacedeck.service
 msg_ok "Created Service"
 
 motd_ssh
